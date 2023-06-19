@@ -9,7 +9,7 @@ describe("AwsCdkAppStack", () => {
         stack = new AwsCdkAppStack(new Stack(), "MyTestStack");
     });
 
-    test("It should create a WidgetService", () => {
+    it("should create a WidgetService", () => {
     // Check if the stack has a S3 Bucket, Lambda Function, and a REST API Gateway
     // which are part of the WidgetService construct.
         Template.fromStack(stack).hasResource("AWS::S3::Bucket", {});
