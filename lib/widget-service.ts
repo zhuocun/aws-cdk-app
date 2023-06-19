@@ -1,17 +1,18 @@
-import * as core from "@aws-cdk/core";
-import * as apigateway from "@aws-cdk/aws-apigateway";
-import * as lambda from "@aws-cdk/aws-lambda";
-import * as s3 from "@aws-cdk/aws-s3";
+import { Construct } from "constructs";
+import { Stack } from "aws-cdk-lib";
+import { Bucket } from "aws-cdk-lib/aws-s3";
+import { Function, Runtime, Code } from "aws-cdk-lib/aws-lambda";
+import { RestApi, LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
 
-export class WidgetService extends core.Construct {
-    constructor(scope: core.Construct, id: string) {
+export class WidgetService extends Construct {
+    constructor(scope: Stack, id: string) {
         super(scope, id);
 
-        const bucket = new s3.Bucket(this, "WidgetStore");
+        const bucket = new Bucket(this, "WidgetStore");
 
-        const handler = new lambda.Function(this, "WidgetHandler", {
-            runtime: lambda.Runtime.NODEJS_16_X,
-            code: lambda.Code.fromAsset("resources"),
+        const handler = new Function(this, "WidgetHandler", {
+            runtime: Runtime.NODEJS_16_X,
+            code: Code.fromAsset("resources"),
             handler: "widgets.main",
             environment: {
                 BUCKET: bucket.bucketName,
@@ -20,36 +21,25 @@ export class WidgetService extends core.Construct {
 
         bucket.grantReadWrite(handler);
 
-        const api = new apigateway.RestApi(this, "widgets-api", {
+        const api = new RestApi(this, "widgets-api", {
             restApiName: "Widget Service",
             description: "This service serves widgets.",
         });
 
-        const getWidgetsIntegration = new apigateway.LambdaIntegration(handler, {
-            requestTemplates: { "application/json": "{ statusCode: 200 }" },
+        const getWidgetsIntegration = new LambdaIntegration(handler, {
+            requestTemplates: { "application/json": "{ \"statusCode\": \"200\" }" },
         });
 
         api.root.addMethod("GET", getWidgetsIntegration);
 
-        // Connecting to API Gateway
         const widget = api.root.addResource("{id}");
 
-        // Add new widget to bucket with: POST /{id}
-        const postWidgetIntegration = new apigateway.LambdaIntegration(handler);
+        const postWidgetIntegration = new LambdaIntegration(handler);
+        const getWidgetIntegration = new LambdaIntegration(handler);
+        const deleteWidgetIntegration = new LambdaIntegration(handler);
 
-        // Get a specific widget from bucket with: GET /{id}
-        const getWidgetIntegration = new apigateway.LambdaIntegration(handler);
-
-        // Remove a specific widget from the bucket with: DELETE /{id}
-        const deleteWidgetIntegration = new apigateway.LambdaIntegration(handler);
-
-        // POST /{id}
         widget.addMethod("POST", postWidgetIntegration);
-
-        // GET /{id}
         widget.addMethod("GET", getWidgetIntegration);
-
-        // DELETE /{id}
         widget.addMethod("DELETE", deleteWidgetIntegration);
     }
 }

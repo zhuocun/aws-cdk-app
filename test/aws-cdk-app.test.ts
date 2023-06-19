@@ -1,17 +1,19 @@
-// import * as cdk from 'aws-cdk-lib';
-// import { Template } from 'aws-cdk-lib/assertions';
-// import * as AwsCdkApp from '../lib/aws-cdk-app-stack';
+import { expect as expectCDK, haveResourceLike } from "@aws-cdk/assert";
+import { Stack } from "aws-cdk-lib";
+import { AwsCdkAppStack } from "../lib/aws-cdk-app-stack";
 
-// example test. To run these tests, uncomment this file along with the
-// example resource in lib/aws-cdk-app-stack.ts
-test("SQS Queue Created", () => {
-//   const app = new cdk.App();
-//     // WHEN
-//   const stack = new AwsCdkApp.AwsCdkAppStack(app, 'MyTestStack');
-//     // THEN
-//   const template = Template.fromStack(stack);
+describe("AwsCdkAppStack", () => {
+    let stack: Stack;
 
-//   template.hasResourceProperties('AWS::SQS::Queue', {
-//     VisibilityTimeout: 300
-//   });
+    beforeEach(() => {
+        stack = new AwsCdkAppStack(new Stack(), "MyTestStack");
+    });
+
+    test("It should create a WidgetService", () => {
+    // Check if the stack has a S3 Bucket, Lambda Function, and a REST API Gateway
+    // which are part of the WidgetService construct.
+        expectCDK(stack).to(haveResourceLike("AWS::S3::Bucket"));
+        expectCDK(stack).to(haveResourceLike("AWS::Lambda::Function"));
+        expectCDK(stack).to(haveResourceLike("AWS::ApiGateway::RestApi"));
+    });
 });
