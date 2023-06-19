@@ -9,8 +9,10 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "eslint": "eslint . --ext .ts --fix",
-    "pre-commit": "npm run eslint"
+    "eslintJS": "eslint . --ext .js --fix",
+    "eslintTS": "eslint . --ext .ts --fix",
+    "pre-commit": "npm run eslintJS && npm run eslintTS",
+    "deploy": "npm run pre-commit && cdk deploy"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.5",
