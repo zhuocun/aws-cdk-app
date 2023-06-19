@@ -1,16 +1,20 @@
 import { Construct } from "constructs";
 import { Stack } from "aws-cdk-lib";
 import { Bucket } from "aws-cdk-lib/aws-s3";
-import { Function, Runtime, Code } from "aws-cdk-lib/aws-lambda";
+import {
+    Code,
+    Function as LambdaFunction,
+    Runtime,
+} from "aws-cdk-lib/aws-lambda";
 import { RestApi, LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
 
 export class WidgetService extends Construct {
     constructor(scope: Stack, id: string) {
         super(scope, id);
 
+        // Defines a S3 Bucket to store the widgets
         const bucket = new Bucket(this, "WidgetStore");
-
-        const handler = new Function(this, "WidgetHandler", {
+        const lambdaHandler = new LambdaFunction(this, "WidgetHandler", {
             runtime: Runtime.NODEJS_16_X,
             code: Code.fromAsset("resources"),
             handler: "widgets.main",
@@ -18,15 +22,17 @@ export class WidgetService extends Construct {
                 BUCKET: bucket.bucketName,
             },
         });
+        // Defines the S3 Bucket Permission for the Lambda Function
+        bucket.grantReadWrite(lambdaHandler);
 
-        bucket.grantReadWrite(handler);
-
+        // Defines the API Gateway Rest API
         const api = new RestApi(this, "widgets-api", {
             restApiName: "Widget Service",
             description: "This service serves widgets.",
         });
 
-        const getWidgetsIntegration = new LambdaIntegration(handler, {
+        // Defines the API Gateway Integration for the Lambda Function
+        const getWidgetsIntegration = new LambdaIntegration(lambdaHandler, {
             requestTemplates: { "application/json": "{ \"statusCode\": \"200\" }" },
         });
 
@@ -34,9 +40,9 @@ export class WidgetService extends Construct {
 
         const widget = api.root.addResource("{id}");
 
-        const postWidgetIntegration = new LambdaIntegration(handler);
-        const getWidgetIntegration = new LambdaIntegration(handler);
-        const deleteWidgetIntegration = new LambdaIntegration(handler);
+        const postWidgetIntegration = new LambdaIntegration(lambdaHandler);
+        const getWidgetIntegration = new LambdaIntegration(lambdaHandler);
+        const deleteWidgetIntegration = new LambdaIntegration(lambdaHandler);
 
         widget.addMethod("POST", postWidgetIntegration);
         widget.addMethod("GET", getWidgetIntegration);

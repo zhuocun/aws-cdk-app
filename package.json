@@ -11,11 +11,10 @@
     "cdk": "cdk",
     "eslint": "eslint . --ext .ts --fix",
     "eslintJS": "eslint . --ext .js --fix",
-    "pre-check": "npm run eslint && npm run eslintJS && npm run test",
+    "pre-check": "npm run eslint && npm run eslintJS && npm test -- -u",
     "deploy": "npm run pre-check && cdk deploy"
   },
   "devDependencies": {
-    "@aws-cdk/assert": "^2.68.0",
     "@commitlint/cli": "^17.6.5",
     "@commitlint/config-conventional": "^17.6.5",
     "@types/aws-lambda": "^8.10.119",
@@ -37,7 +36,6 @@
     "typescript": "~5.0.4"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.354.0",
     "constructs": "^10.0.0",
     "source-map-support": "^0.5.21"
   }

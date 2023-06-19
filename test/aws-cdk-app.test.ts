@@ -1,4 +1,4 @@
-import { expect as expectCDK, haveResourceLike } from "@aws-cdk/assert";
+import { Template } from "aws-cdk-lib/assertions";
 import { Stack } from "aws-cdk-lib";
 import { AwsCdkAppStack } from "../lib/aws-cdk-app-stack";
 
@@ -12,8 +12,8 @@ describe("AwsCdkAppStack", () => {
     test("It should create a WidgetService", () => {
     // Check if the stack has a S3 Bucket, Lambda Function, and a REST API Gateway
     // which are part of the WidgetService construct.
-        expectCDK(stack).to(haveResourceLike("AWS::S3::Bucket"));
-        expectCDK(stack).to(haveResourceLike("AWS::Lambda::Function"));
-        expectCDK(stack).to(haveResourceLike("AWS::ApiGateway::RestApi"));
+        Template.fromStack(stack).hasResource("AWS::S3::Bucket", {});
+        Template.fromStack(stack).hasResource("AWS::Lambda::Function", {});
+        Template.fromStack(stack).hasResource("AWS::ApiGateway::RestApi", {});
     });
 });
