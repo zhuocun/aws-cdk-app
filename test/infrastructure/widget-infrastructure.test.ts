@@ -1,8 +1,8 @@
 import { Template } from "aws-cdk-lib/assertions";
 import { Stack } from "aws-cdk-lib";
-import { WidgetInfrastructure } from "../infrastructure/lib/widget-infrastructure";
+import { WidgetInfrastructure } from "../../infrastructure/lib/widget-infrastructure";
 
-describe("WidgetService Construct", () => {
+describe("Widget Infrastructure", () => {
     let stack: Stack;
 
     beforeEach(() => {
