@@ -10,11 +10,11 @@
     "test": "jest",
     "cdk": "cdk",
     "eslint": "eslint . --ext .ts --fix",
-    "eslintJS": "eslint . --ext .js --fix",
-    "pre-check": "npm run eslint && npm run eslintJS && npm test -- -u",
-    "deploy": "npm run pre-check && cdk deploy"
+    "pre-check": "npm run eslint && npm test -- -u",
+    "deploy": "rm -r dist && npm run eslint && tsc && npm test -- -u && cdk deploy"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3.354.0",
     "@commitlint/cli": "^17.6.5",
     "@commitlint/config-conventional": "^17.6.5",
     "@types/aws-lambda": "^8.10.119",

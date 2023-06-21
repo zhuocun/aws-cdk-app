@@ -4,36 +4,39 @@ import { Bucket } from "aws-cdk-lib/aws-s3";
 import {
     Code,
     Function as LambdaFunction,
-    Runtime,
+    Runtime
 } from "aws-cdk-lib/aws-lambda";
 import { RestApi, LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
 
-export class WidgetService extends Construct {
+class WidgetService extends Construct {
     constructor(scope: Stack, id: string) {
         super(scope, id);
 
         // Defines a S3 Bucket to store the widgets
         const bucket = new Bucket(this, "WidgetStore");
+
+        // Defines the Lambda Function for the API Gateway
         const lambdaHandler = new LambdaFunction(this, "WidgetHandler", {
-            runtime: Runtime.NODEJS_16_X,
-            code: Code.fromAsset("resources"),
+            runtime: Runtime.NODEJS_18_X,
+            code: Code.fromAsset("dist/resources"),
             handler: "widgets.main",
             environment: {
-                BUCKET: bucket.bucketName,
-            },
+                BUCKET: bucket.bucketName
+            }
         });
+
         // Defines the S3 Bucket Permission for the Lambda Function
         bucket.grantReadWrite(lambdaHandler);
 
         // Defines the API Gateway Rest API
         const api = new RestApi(this, "widgets-api", {
             restApiName: "Widget Service",
-            description: "This service serves widgets.",
+            description: "This service serves widgets."
         });
 
         // Defines the API Gateway Integration for the Lambda Function
         const getWidgetsIntegration = new LambdaIntegration(lambdaHandler, {
-            requestTemplates: { "application/json": "{ \"statusCode\": \"200\" }" },
+            requestTemplates: { "application/json": "{ \"statusCode\": \"200\" }" }
         });
 
         api.root.addMethod("GET", getWidgetsIntegration);
@@ -49,3 +52,5 @@ export class WidgetService extends Construct {
         widget.addMethod("DELETE", deleteWidgetIntegration);
     }
 }
+
+export { WidgetService };

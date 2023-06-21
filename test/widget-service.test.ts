@@ -28,7 +28,7 @@ describe("WidgetService Construct", () => {
     // Tests that the Lambda function uses the correct runtime
     it("uses the correct runtime", () => {
         Template.fromStack(stack).hasResourceProperties("AWS::Lambda::Function", {
-            Runtime: "nodejs16.x",
+            Runtime: "nodejs18.x"
         });
     });
 });
