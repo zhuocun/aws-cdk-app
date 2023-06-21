@@ -1,13 +1,13 @@
 import { Template } from "aws-cdk-lib/assertions";
 import { Stack } from "aws-cdk-lib";
-import { WidgetService } from "../lib/widget-service";
+import { WidgetInfrastructure } from "../infrastructure/lib/widget-infrastructure";
 
 describe("WidgetService Construct", () => {
     let stack: Stack;
 
     beforeEach(() => {
         stack = new Stack();
-        new WidgetService(stack, "MyTestConstruct");
+        new WidgetInfrastructure(stack, "MyTestConstruct");
     });
 
     // Tests that an S3 bucket is present in the stack

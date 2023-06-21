@@ -1,6 +1,6 @@
 import { Template } from "aws-cdk-lib/assertions";
 import { Stack } from "aws-cdk-lib";
-import { AwsCdkAppStack } from "../lib/aws-cdk-app-stack";
+import { AwsCdkAppStack } from "../infrastructure/lib/aws-cdk-app-stack";
 
 describe("AwsCdkAppStack", () => {
     let stack: Stack;

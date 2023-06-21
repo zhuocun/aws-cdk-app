@@ -8,7 +8,7 @@ import {
 } from "aws-cdk-lib/aws-lambda";
 import { RestApi, LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
 
-class WidgetService extends Construct {
+class WidgetInfrastructure extends Construct {
     constructor(scope: Stack, id: string) {
         super(scope, id);
 
@@ -18,8 +18,8 @@ class WidgetService extends Construct {
         // Defines the Lambda Function for the API Gateway
         const lambdaHandler = new LambdaFunction(this, "WidgetHandler", {
             runtime: Runtime.NODEJS_18_X,
-            code: Code.fromAsset("dist/resources"),
-            handler: "widgets.main",
+            code: Code.fromAsset("dist/src/widget"),
+            handler: "widget-controller.main",
             environment: {
                 BUCKET: bucket.bucketName
             }
@@ -53,4 +53,4 @@ class WidgetService extends Construct {
     }
 }
 
-export { WidgetService };
+export { WidgetInfrastructure };
