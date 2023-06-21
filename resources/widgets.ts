@@ -110,7 +110,7 @@ const main = async (
     } catch (error: unknown) {
         let body = "";
         if (error instanceof Error) {
-            body = error.stack || error.message;
+            body = error.stack ?? error.message;
         } else {
             body = JSON.stringify(error, null, 2);
         }
