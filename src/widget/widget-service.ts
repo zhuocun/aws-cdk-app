@@ -7,7 +7,7 @@ import {
 } from "@aws-sdk/client-s3";
 
 const s3 = new S3Client({});
-const bucketName = process.env.BUCKET ?? "widgets";
+const bucketName = process.env.BUCKET ?? "WidgetStore";
 
 const getWidgets = async (
     widgetName: string

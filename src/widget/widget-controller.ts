@@ -6,7 +6,7 @@ const formatResponse = (
     body: unknown
 ): { statusCode: number; headers: object; body: string } => {
     return {
-        statusCode: statusCode,
+        statusCode,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
     };
