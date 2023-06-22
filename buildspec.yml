@@ -1,0 +1,31 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Installing source NPM dependencies...
+      - npm install
+
+  pre_build:
+    commands:
+      - echo Running ESLint...
+      - npm run eslint
+      - echo Running tests...
+      - npm test -- -u
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Compiling TypeScript...
+      - npm run build
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Deploying application...
+      - npm run deploy
+
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: yes
