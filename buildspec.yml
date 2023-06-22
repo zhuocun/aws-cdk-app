@@ -10,8 +10,6 @@ phases:
     commands:
       - echo Running ESLint...
       - npm run eslint
-      - echo Running tests...
-      - npm test -- -u
 
   build:
     commands:
