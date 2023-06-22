@@ -5,6 +5,7 @@ phases:
     commands:
       - echo Installing source NPM dependencies...
       - npm install
+      - npm install -g aws-cdk
 
   pre_build:
     commands:
@@ -22,7 +23,7 @@ phases:
       - echo Build completed on `date`
       - echo Synthesizing CDK...
       - cdk synth
-      
+
 artifacts:
   files:
     - 'dist/**/*'
