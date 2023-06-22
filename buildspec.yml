@@ -17,12 +17,6 @@ phases:
       - echo Compiling TypeScript...
       - npm run build
 
-  post_build:
-    commands:
-      - echo Build completed on `date`
-      - echo Deploying application...
-      - npm run deploy
-
 artifacts:
   files:
     - 'dist/**/*'
