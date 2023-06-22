@@ -38,13 +38,11 @@ jest.mock("@aws-sdk/client-s3", () => {
 
 describe("getWidgets", () => {
     it("should return all widget keys when widgetName is not provided", async () => {
-        const result = await getWidgets("");
-        expect(result).toEqual({ widgets: ["widget1", "widget2"] });
+        expect(await getWidgets("")).toEqual({ widgets: ["widget1", "widget2"] });
     });
 
     it("should return specific widget data when widgetName is provided", async () => {
-        const result = await getWidgets("widget1");
-        expect(result).toEqual({ widget: "widget1" });
+        expect(await getWidgets("widget1")).toEqual({ widget: "widget1" });
     });
 });
 
@@ -55,8 +53,9 @@ describe("createWidget", () => {
 
     it("should create widget when widgetName is provided", async () => {
         const widgetName = "widget3";
-        const result = await createWidget(widgetName);
-        expect(result).toBe(widgetName + " created successfully");
+        expect(await createWidget(widgetName)).toBe(
+            widgetName + " created successfully"
+        );
     });
 });
 
@@ -67,7 +66,8 @@ describe("deleteWidget", () => {
 
     it("should delete widget when widgetName is provided", async () => {
         const widgetName = "widget1";
-        const result = await deleteWidget(widgetName);
-        expect(result).toBe("Successfully deleted widget " + widgetName);
+        expect(await deleteWidget(widgetName)).toBe(
+            "Successfully deleted widget " + widgetName
+        );
     });
 });
