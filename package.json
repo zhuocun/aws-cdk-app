@@ -5,7 +5,7 @@
     "aws-cdk-app": "bin/aws-cdk-app.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "rm -r dist && npm run eslint && tsc && npm test -- -u",
     "watch": "tsc -w",
     "test": "jest --coverage",
     "cdk": "cdk",
