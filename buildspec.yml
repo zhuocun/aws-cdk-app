@@ -17,9 +17,16 @@ phases:
       - echo Compiling TypeScript...
       - npm run build
 
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Synthesizing CDK...
+      - cdk synth
+      
 artifacts:
   files:
     - 'dist/**/*'
+    - 'cdk.out/**/*'
     - '**/*'
   discard-paths: yes
 
