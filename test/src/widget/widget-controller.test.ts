@@ -110,7 +110,7 @@ describe("main", () => {
     expect(result.statusCode).toBe(400);
     expect(result.body).toEqual(
       expect.stringContaining(
-        "Only GET, POST, and DELETE requests are accepted now"
+        "Only GET, POST, and DELETE requests are accepted"
       )
     );
   });
