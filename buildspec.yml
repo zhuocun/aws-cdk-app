@@ -26,6 +26,11 @@ phases:
       - echo Listing synthesized files...
       - ls -al cdk.out
 
+  deploy:
+    commands:
+      - echo Deploying AWS CDK stack...
+      - cdk deploy --app "cdk.out" --require-approval never
+
 artifacts:
   files:
     - 'dist/**/*'
