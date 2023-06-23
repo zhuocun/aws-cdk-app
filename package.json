@@ -10,7 +10,7 @@
     "test": "jest --coverage",
     "cdk": "cdk",
     "eslint": "eslint . --ext .ts --fix",
-    "pre-check": "npm run eslint && npm test -- -u",
+    "pre-check": "npm run eslint && tsc && npm test -- -u && rm -r dist",
     "deploy": "rm -r dist && npm run eslint && tsc && npm test -- -u && cdk deploy"
   },
   "devDependencies": {
