@@ -37,3 +37,9 @@ phases:
 
       - echo "Uploading ZIP file to S3..."
       - aws s3 cp $S3_KEY s3://$S3_BUCKET/$S3_KEY
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'cdk.out'
+  discard-paths: yes
