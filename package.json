@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc && npm test -- -u",
     "watch": "tsc -w",
-    "test": "npm run build && jest --coverage",
+    "test": "jest --coverage",
     "cdk": "cdk",
     "eslint": "eslint . --ext .ts --fix",
     "pre-check": "rm -r dist && npm run eslint && tsc && npm test -- -u",
