@@ -25,7 +25,7 @@ phases:
       - cdk synth
       - echo "Extracting S3 bucket and S3 key..."
       - export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
-      - export AWS_DEFAULT_REGION=$(aws configure get region)
+      - export AWS_DEFAULT_REGION=ap-southeast-2
       - export S3_BUCKET=$(jq -r '.Resources.WidgetsWidgetHandler1BC9DB34.Properties.Code.S3Bucket."Fn::Sub"' cdk.out/AwsCdkAppStack.template.json)
       - export S3_BUCKET=${S3_BUCKET/\$\{AWS::AccountId\}/$AWS_ACCOUNT_ID}
       - export S3_BUCKET=${S3_BUCKET/\$\{AWS::Region\}/$AWS_DEFAULT_REGION}
@@ -36,4 +36,4 @@ phases:
       - zip -r $S3_KEY .
 
       - echo "Uploading ZIP file to S3..."
-      - aws s3 cp $S3_KEY s3://$S3_BUCKET/
+      - aws s3 cp $S3_KEY s3://$S3_BUCKET/$S3_KEY
