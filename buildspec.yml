@@ -30,6 +30,5 @@ artifacts:
   files:
     - 'dist/**/*'
     - 'cdk.out/**/*'
-  discard-paths: no
-  zip: false
+  discard-paths: yes
 
