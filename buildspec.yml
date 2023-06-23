@@ -24,8 +24,8 @@ phases:
       - echo Synthesizing CDK...
       - cdk synth
       - echo "Extracting S3 bucket and S3 key..."
-      - S3_BUCKET=$(jq -r '.Resources.WidgetsWidgetHandler1BC9DB34.Properties.Code.S3Bucket.Fn::Sub' cdk.out/AwsCdkAppStack.template.json)
-      - S3_KEY=$(jq -r '.Resources.WidgetsWidgetHandler1BC9DB34.Properties.Code.S3Key' cdk.out/AwsCdkAppStack.template.json)
+      - S3_BUCKET=$(jq -r '.Resources.WidgetsWidgetHandler1BC9DB34.Properties.Code.S3Bucket' cdk.out/AwsCdkAppStack.template.json | tr -d '\n\r')
+      - S3_KEY=$(jq -r '.Resources.WidgetsWidgetHandler1BC9DB34.Properties.Code.S3Key' cdk.out/AwsCdkAppStack.template.json | tr -d '\n\r')
 
       - echo "Creating ZIP file..."
       - cd dist/src/widget
