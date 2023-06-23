@@ -29,5 +29,5 @@ artifacts:
     - 'dist/**/*'
     - 'cdk.out/**/*'
     - '**/*'
-  discard-paths: yes
+  discard-paths: no
 
