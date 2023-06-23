@@ -7,29 +7,29 @@ phases:
       - npm install
       - npm install -g aws-cdk
 
-  # pre_build:
-  #   commands:
-  #     - echo Running ESLint...
-  #     - npm run eslint
+  pre_build:
+    commands:
+      - echo Running ESLint...
+      - npm run eslint
 
   build:
     commands:
-      # - echo Build started on `date`
-      # - echo Compiling TypeScript...
-      - npm run deploy
+      - echo Build started on `date`
+      - echo Compiling TypeScript...
+      - npm run build
 
-  # post_build:
-  #   commands:
-  #     - echo Build completed on `date`
-  #     - echo Synthesizing CDK...
-  #     - cdk synth
-  #     - echo Listing synthesized files...
-  #     - ls -al cdk.out
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Synthesizing CDK...
+      - cdk synth
+      - echo "Extracting S3 bucket and S3 key..."
+      - S3_BUCKET=$(jq -r '.Resources.WidgetsWidgetHandler1BC9DB34.Properties.Code.S3Bucket' cdk.out/AwsCdkAppStack.template.json)
+      - S3_KEY=$(jq -r '.Resources.WidgetsWidgetHandler1BC9DB34.Properties.Code.S3Key' cdk.out/AwsCdkAppStack.template.json)
 
-artifacts:
-  files:
-    - 'dist/**/*'
-    - 'cdk.out/**/*'
-  discard-paths: yes
-  zip: yes
+      - echo "Creating ZIP file..."
+      - cd dist/src/widget
+      - zip -r $S3_KEY .
 
+      - echo "Uploading ZIP file to S3..."
+      - aws s3 cp $S3_KEY s3://$S3_BUCKET/$S3_KEY
