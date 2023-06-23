@@ -36,4 +36,4 @@ phases:
       - zip -r $S3_KEY .
 
       - echo "Uploading ZIP file to S3..."
-      - aws s3 cp $S3_KEY s3://$S3_BUCKET/$S3_KEY
+      - aws s3 cp $S3_KEY s3://$S3_BUCKET/
