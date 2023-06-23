@@ -30,7 +30,7 @@ const main = async (
       default:
         return formatResponse(
           400,
-          "Only GET, POST, and DELETE requests are accepted"
+          "Only GET, POST, and DELETE requests are accepted currently"
         );
     }
   } catch (error) {
