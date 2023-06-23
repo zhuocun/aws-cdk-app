@@ -23,6 +23,8 @@ phases:
       - echo Build completed on `date`
       - echo Synthesizing CDK...
       - cdk synth
+      - echo Listing synthesized files...
+      - ls -al cdk.out
 
 artifacts:
   files:
