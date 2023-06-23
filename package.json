@@ -7,11 +7,11 @@
   "scripts": {
     "build": "tsc && npm test -- -u",
     "watch": "tsc -w",
-    "test": "jest --coverage",
+    "test": "npm run build && jest --coverage",
     "cdk": "cdk",
     "eslint": "eslint . --ext .ts --fix",
-    "pre-check": "npm run eslint && tsc && npm test -- -u && rm -r dist",
-    "deploy": "npm run eslint && tsc && npm test -- -u && cdk deploy && rm -r dist"
+    "pre-check": "rm -r dist && npm run eslint && tsc && npm test -- -u",
+    "deploy": "rm -r dist && npm run eslint && tsc && npm test -- -u && cdk deploy"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.5",
