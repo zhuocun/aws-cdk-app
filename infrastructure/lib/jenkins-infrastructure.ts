@@ -5,7 +5,7 @@ import {
   aws_elasticloadbalancingv2_targets as targets,
 } from "aws-cdk-lib";
 
-export class JenkinsInfrastructure extends Construct {
+class JenkinsInfrastructure extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
@@ -76,3 +76,5 @@ export class JenkinsInfrastructure extends Construct {
     });
   }
 }
+
+export { JenkinsInfrastructure };
