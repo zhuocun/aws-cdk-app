@@ -42,10 +42,11 @@ class JenkinsInfrastructure extends Construct {
     );
 
     // Create the Jenkins server
+    // Use Amazon Linux 2
     const jenkinsInstance = new ec2.Instance(this, "JenkinsInstance", {
       vpc,
       instanceType: new ec2.InstanceType("t2.medium"),
-      machineImage: new ec2.AmazonLinuxImage(),
+      machineImage: ec2.MachineImage.latestAmazonLinux2(),
       securityGroup,
     });
 
