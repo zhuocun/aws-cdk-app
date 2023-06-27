@@ -8,9 +8,9 @@ import {
 const jenkinsInstallationScript: string[] = [
   "sudo yum clean all",
   "sudo yum update -y",
-  "sudo yum install -y java-1.8.0-openjdk",
+  "sudo amazon-linux-extras install java-openjdk11 -y",
   "sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat/jenkins.repo",
-  "sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key",
+  "sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io-2023.key",
   "sudo yum install jenkins -y",
   "if [[ $? -ne 0 ]]; then echo 'Jenkins installation failed'; exit 1; fi",
   "sudo systemctl start jenkins",
@@ -51,6 +51,9 @@ class JenkinsInfrastructure extends Construct {
       instanceType: new ec2.InstanceType("t2.medium"),
       machineImage: ec2.MachineImage.latestAmazonLinux2(),
       securityGroup,
+      keyName: "zhuocun-ec2-key-name",
+      vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
+      associatePublicIpAddress: true,
     });
 
     // use userData to install Jenkins
