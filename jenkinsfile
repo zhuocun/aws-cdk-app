@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Install') {
+            steps {
+                echo 'Installing source NPM dependencies...'
+                sh 'npm install'
+                sh 'npm install -g aws-cdk'
+            }
+        }
+
+        stage('Pre Build') {
+            steps {
+                echo 'Running ESLint...'
+                sh 'npm run eslint'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Build started on `date`'
+                echo 'Compiling TypeScript...'
+                sh 'npm run build'
+            }
+        }
+
+        stage('Post Build') {
+            steps {
+                echo 'Build completed on `date`'
+                echo 'Synthesizing CDK...'
+                sh 'cdk synth'
+                sh '''
+                    echo "Extracting S3 bucket and S3 key..."
+                    AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
+                    AWS_DEFAULT_REGION=ap-southeast-2
+                    S3_BUCKET=$(jq -r '.Resources.WidgetsWidgetHandler1BC9DB34.Properties.Code.S3Bucket."Fn::Sub"' cdk.out/AwsCdkAppStack.template.json)
+                    S3_BUCKET=${S3_BUCKET/\$\{AWS::AccountId\}/$AWS_ACCOUNT_ID}
+                    S3_BUCKET=${S3_BUCKET/\$\{AWS::Region\}/$AWS_DEFAULT_REGION}
+                    S3_KEY=$(jq -r '.Resources.WidgetsWidgetHandler1BC9DB34.Properties.Code.S3Key' cdk.out/AwsCdkAppStack.template.json)
+                    
+                    echo "Creating ZIP file..."
+                    cd dist/src/widget
+                    zip -r $S3_KEY .
+                    
+                    echo "Uploading ZIP file to S3..."
+                    aws s3 cp $S3_KEY s3://$S3_BUCKET/$S3_KEY
+                '''
+            }
+        }
+    }
+}
