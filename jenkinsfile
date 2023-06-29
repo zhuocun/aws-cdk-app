@@ -1,6 +1,16 @@
 pipeline {
     agent any
 
+    stage('Install Node.js and npm') {
+            steps {
+                // Set up Node.js environment using the NodeJS Jenkins plugin
+                // This will install the specified Node.js version
+                nodejs('16') {
+                    echo 'Node.js installation completed.'
+                }
+            }
+        }
+
     stages {
         stage('Install') {
             steps {
