@@ -5,6 +5,7 @@ pipeline {
         stage('Install') {
             steps {
                 echo 'Installing source NPM dependencies...'
+                sh 'nvm use 16'
                 sh 'npm install'
                 sh 'npm install -g aws-cdk'
             }
