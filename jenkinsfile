@@ -1,19 +1,12 @@
 pipeline {
     agent any
 
-    stage('Install Node.js and npm') {
-            steps {
-                // Set up Node.js environment using the NodeJS Jenkins plugin
-                // This will install the specified Node.js version
-                nodejs('16') {
-                    echo 'Node.js installation completed.'
-                }
-            }
-        }
-
     stages {
         stage('Install') {
             steps {
+                nodejs('16') {
+                    echo 'Node.js installation completed.'
+                }
                 echo 'Installing source NPM dependencies...'
                 sh 'npm install'
                 sh 'npm install -g aws-cdk'
