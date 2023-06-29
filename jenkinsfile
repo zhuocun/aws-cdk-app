@@ -6,7 +6,6 @@ pipeline {
             steps {
                 echo 'Installing source NPM dependencies...'
                 sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash'
-                sh 'source ~/.bashrc'
                 sh 'nvm install 16'
                 sh 'npm install'
                 sh 'npm install -g aws-cdk'
