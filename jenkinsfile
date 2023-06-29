@@ -10,7 +10,7 @@ pipeline {
                 withEnv(["PATH+NODEJS=${tool 'jenkins-nodejs'}/bin"]) {
                     echo 'Installing source NPM dependencies...'
                     sh 'npm install'
-                    sh 'npm install -g aws-cdk'
+                    sh 'npm install aws-cdk'
                 }
             }
         }
@@ -38,7 +38,7 @@ pipeline {
             steps {
                 echo 'Build completed on `date`'
                 echo 'Synthesizing CDK...'
-                sh 'cdk synth'
+                sh 'npx cdk synth'
                 sh '''
                     echo "Extracting S3 bucket and S3 key..."
                     AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
