@@ -7,6 +7,8 @@ pipeline {
                 nodejs('jenkins-nodejs') {
                     echo 'Node.js installation completed.'
                 }
+                sh 'sudo yum update'
+                sh 'sudo yum install -y jq'
                 withEnv(["PATH+NODEJS=${tool 'jenkins-nodejs'}/bin"]) {
                     echo 'Installing source NPM dependencies...'
                     sh 'npm install'
