@@ -17,16 +17,20 @@ pipeline {
 
         stage('Pre Build') {
             steps {
-                echo 'Running ESLint...'
-                sh 'npm run eslint'
+                withEnv(["PATH+NODEJS=${tool 'jenkins-nodejs'}/bin"]) {
+                    echo 'Running ESLint...'
+                    sh 'npm run eslint'
+                }
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Build started on `date`'
-                echo 'Compiling TypeScript...'
-                sh 'npm run build'
+                withEnv(["PATH+NODEJS=${tool 'jenkins-nodejs'}/bin"]) {
+                    echo 'Build started on `date`'
+                    echo 'Compiling TypeScript...'
+                    sh 'npm run build'
+                }
             }
         }
 
