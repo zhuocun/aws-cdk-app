@@ -5,15 +5,15 @@ pipeline {
         stage('Install') {
             steps {
                 echo 'Installing source NPM dependencies...'
-                sh 'npm install'
-                sh 'npm install -g aws-cdk'
+                sh '~/.nvm/versions/node/v16.20.1/bin/npm install'
+                sh '~/.nvm/versions/node/v16.20.1/bin/npm install -g aws-cdk'
             }
         }
 
         stage('Pre Build') {
             steps {
                 echo 'Running ESLint...'
-                sh 'npm run eslint'
+                sh '~/.nvm/versions/node/v16.20.1/bin/npm run eslint'
             }
         }
 
@@ -21,7 +21,7 @@ pipeline {
             steps {
                 echo 'Build started on `date`'
                 echo 'Compiling TypeScript...'
-                sh 'npm run build'
+                sh '~/.nvm/versions/node/v16.20.1/bin/npm run build'
             }
         }
 
