@@ -35,8 +35,8 @@ pipeline {
                     AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' --output text)
                     AWS_DEFAULT_REGION=ap-southeast-2
                     S3_BUCKET=$(jq -r '.Resources.WidgetsWidgetHandler1BC9DB34.Properties.Code.S3Bucket."Fn::Sub"' cdk.out/AwsCdkAppStack.template.json)
-                    S3_BUCKET=${S3_BUCKET/\$\{AWS::AccountId\}/$AWS_ACCOUNT_ID}
-                    S3_BUCKET=${S3_BUCKET/\$\{AWS::Region\}/$AWS_DEFAULT_REGION}
+                    S3_BUCKET=S3_BUCKET.replaceAll('\\$\\{AWS::AccountId\\}', AWS_ACCOUNT_ID)
+                    S3_BUCKET=S3_BUCKET.replaceAll('\\$\\{AWS::Region\\}', AWS_DEFAULT_REGION)
                     S3_KEY=$(jq -r '.Resources.WidgetsWidgetHandler1BC9DB34.Properties.Code.S3Key' cdk.out/AwsCdkAppStack.template.json)
                     
                     echo "Creating ZIP file..."
@@ -45,7 +45,7 @@ pipeline {
                     
                     echo "Uploading ZIP file to S3..."
                     aws s3 cp $S3_KEY s3://$S3_BUCKET/$S3_KEY
-                ''' 
+                '''
             }
         }
     }
