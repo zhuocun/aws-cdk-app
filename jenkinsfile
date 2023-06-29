@@ -3,7 +3,8 @@ pipeline {
 
     stages {
         stage('Install') {
-            nodejs('jenkins-nodejs') {
+            steps {
+                nodejs('jenkins-nodejs') {
                     echo 'Node.js installation completed.'
                 }
                 withEnv(["PATH+NODEJS=${tool 'jenkins-nodejs'}/bin"]) {
@@ -11,6 +12,7 @@ pipeline {
                     sh 'npm install'
                     sh 'npm install -g aws-cdk'
                 }
+            }
         }
 
         stage('Pre Build') {
