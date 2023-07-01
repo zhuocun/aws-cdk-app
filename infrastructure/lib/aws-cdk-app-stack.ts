@@ -4,11 +4,11 @@ import { Construct } from "constructs";
 import { JenkinsInfrastructure } from "./jenkins-infrastructure";
 
 class AwsCdkAppStack extends Stack {
-  constructor(scope: Construct, id: string, props?: StackProps) {
-    super(scope, id, props);
-    new WidgetInfrastructure(this, "Widgets");
-    new JenkinsInfrastructure(this, "Jenkins");
-  }
+    constructor(scope: Construct, id: string, props?: StackProps) {
+      super(scope, id, props);
+      new WidgetInfrastructure(this, "Widgets"); // NOSONAR
+      new JenkinsInfrastructure(this, "Jenkins"); // NOSONAR
+    }
 }
 
 export { AwsCdkAppStack };

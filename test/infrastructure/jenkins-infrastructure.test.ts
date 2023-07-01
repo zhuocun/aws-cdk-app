@@ -6,8 +6,8 @@ describe("Jenkins Infrastructure", () => {
     let stack: Stack;
 
     beforeEach(() => {
-        stack = new Stack();
-        new JenkinsInfrastructure(stack, "MyTestConstruct");
+      stack = new Stack();
+      new JenkinsInfrastructure(stack, "MyTestConstruct"); // NOSONAR
     });
 
     it("has a VPC", () => {
