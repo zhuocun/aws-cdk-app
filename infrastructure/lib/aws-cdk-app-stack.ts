@@ -5,9 +5,9 @@ import { JenkinsInfrastructure } from "./jenkins-infrastructure";
 
 class AwsCdkAppStack extends Stack {
     constructor(scope: Construct, id: string, props?: StackProps) {
-      super(scope, id, props);
-      new WidgetInfrastructure(this, "Widgets"); // NOSONAR
-      new JenkinsInfrastructure(this, "Jenkins"); // NOSONAR
+        super(scope, id, props);
+        new WidgetInfrastructure(this, "Widgets"); // NOSONAR
+        new JenkinsInfrastructure(this, "Jenkins"); // NOSONAR
     }
 }
 
