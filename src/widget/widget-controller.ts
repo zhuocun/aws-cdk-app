@@ -1,15 +1,38 @@
 import { APIGatewayProxyEvent } from "aws-lambda";
-import { createWidget, deleteWidget, getWidgets } from "./widget-service";
+import { WidgetService } from "./widget-service";
+import { formatResponse, getWidgetName } from "../../utils/controller-utils";
 
-const formatResponse = (
-    statusCode: number,
-    body: unknown
-): { statusCode: number; headers: object; body: string } => {
-    return {
-        statusCode,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-    };
+const getWidgets = async (event: APIGatewayProxyEvent) => {
+    try {
+        return formatResponse(
+            200,
+            await WidgetService.getWidgets(getWidgetName(event))
+        );
+    } catch (error) {
+        return formatResponse(500, error instanceof Error ? error.message : error);
+    }
+};
+
+const createWidget = async (event: APIGatewayProxyEvent) => {
+    try {
+        return formatResponse(
+            200,
+            await WidgetService.createWidget(getWidgetName(event))
+        );
+    } catch (error) {
+        return formatResponse(500, error instanceof Error ? error.message : error);
+    }
+};
+
+const deleteWidget = async (event: APIGatewayProxyEvent) => {
+    try {
+        return formatResponse(
+            200,
+            await WidgetService.deleteWidget(getWidgetName(event))
+        );
+    } catch (error) {
+        return formatResponse(500, error instanceof Error ? error.message : error);
+    }
 };
 
 const main = async (
@@ -22,11 +45,17 @@ const main = async (
     try {
         switch (method) {
         case "GET":
-            return formatResponse(200, await getWidgets(widgetName));
+            return formatResponse(200, await WidgetService.getWidgets(widgetName));
         case "POST":
-            return formatResponse(200, await createWidget(widgetName));
+            return formatResponse(
+                200,
+                await WidgetService.createWidget(widgetName)
+            );
         case "DELETE":
-            return formatResponse(200, await deleteWidget(widgetName));
+            return formatResponse(
+                200,
+                await WidgetService.deleteWidget(widgetName)
+            );
         default:
             return formatResponse(
                 400,

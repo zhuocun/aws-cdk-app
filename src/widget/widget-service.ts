@@ -55,4 +55,4 @@ const deleteWidget = async (widgetName: string): Promise<string> => {
     return "Successfully deleted widget " + widgetName;
 };
 
-export { getWidgets, createWidget, deleteWidget };
+export const WidgetService = { getWidgets, createWidget, deleteWidget };

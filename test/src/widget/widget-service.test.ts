@@ -1,9 +1,5 @@
 import { S3Client } from "@aws-sdk/client-s3";
-import {
-    createWidget,
-    deleteWidget,
-    getWidgets
-} from "../../../src/widget/widget-service";
+import { WidgetService } from "../../../src/widget/widget-service";
 
 jest.mock("@aws-sdk/client-s3", () => {
     const actualModule = jest.requireActual("@aws-sdk/client-s3");
@@ -42,11 +38,15 @@ describe("getWidgets", () => {
     });
 
     it("should return all widget keys when widgetName is not provided", async () => {
-        expect(await getWidgets("")).toEqual({ widgets: ["widget1", "widget2"] });
+        expect(await WidgetService.getWidgets("")).toEqual({
+            widgets: ["widget1", "widget2"]
+        });
     });
 
     it("should return specific widget data when widgetName is provided", async () => {
-        expect(await getWidgets("widget1")).toEqual({ widget: "widget1" });
+        expect(await WidgetService.getWidgets("widget1")).toEqual({
+            widget: "widget1"
+        });
     });
 });
 
@@ -56,12 +56,14 @@ describe("createWidget", () => {
     });
 
     it("should throw an error when widgetName is not provided", async () => {
-        await expect(createWidget("")).rejects.toThrow("Widget name missing");
+        await expect(WidgetService.createWidget("")).rejects.toThrow(
+            "Widget name missing"
+        );
     });
 
     it("should create widget when widgetName is provided", async () => {
         const widgetName = "widget3";
-        expect(await createWidget(widgetName)).toBe(
+        expect(await WidgetService.createWidget(widgetName)).toBe(
             widgetName + " created successfully"
         );
     });
@@ -73,12 +75,14 @@ describe("deleteWidget", () => {
     });
 
     it("should throw an error when widgetName is not provided", async () => {
-        await expect(deleteWidget("")).rejects.toThrow("Widget name missing");
+        await expect(WidgetService.deleteWidget("")).rejects.toThrow(
+            "Widget name missing"
+        );
     });
 
     it("should delete widget when widgetName is provided", async () => {
         const widgetName = "widget1";
-        expect(await deleteWidget(widgetName)).toBe(
+        expect(await WidgetService.deleteWidget(widgetName)).toBe(
             "Successfully deleted widget " + widgetName
         );
     });
