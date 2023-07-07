@@ -17,10 +17,15 @@ const getWidgets = async (event: APIGatewayProxyEvent) => {
 
 const createWidget = async (event: APIGatewayProxyEvent) => {
   try {
-    return formatResponse(
-      200,
-      await WidgetService.createWidget(getWidgetName(event))
-    );
+    const widgetName = getWidgetName(event);
+    if (widgetName) {
+      return formatResponse(
+        200,
+        await WidgetService.createWidget(getWidgetName(event))
+      );
+    } else {
+      return formatResponse(400, "Widget name missing");
+    }
   } catch (error) {
     return formatResponse(500, error instanceof Error ? error.message : error);
   }
@@ -28,10 +33,15 @@ const createWidget = async (event: APIGatewayProxyEvent) => {
 
 const deleteWidget = async (event: APIGatewayProxyEvent) => {
   try {
-    return formatResponse(
-      200,
-      await WidgetService.deleteWidget(getWidgetName(event))
-    );
+    const widgetName = getWidgetName(event);
+    if (widgetName) {
+      return formatResponse(
+        200,
+        await WidgetService.deleteWidget(getWidgetName(event))
+      );
+    } else {
+      return formatResponse(400, "Widget name missing");
+    }
   } catch (error) {
     return formatResponse(500, error instanceof Error ? error.message : error);
   }
